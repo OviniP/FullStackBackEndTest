@@ -1,0 +1,10 @@
+POST http://localhost:3003/api/blogs  HTTP/1.1
+content-type: application/json
+
+{
+  "title": "Full Stack1",
+  "author": "Ovini",
+  "url": "http://test.com",
+  "likes": "2"
+}
+###
