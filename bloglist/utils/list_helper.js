@@ -34,16 +34,16 @@ const mostBlogs = (blogs) => {
         return {}
     }
     const groupedData = lodash.groupBy(blogs, 'author');
-    console.log(groupedData);
+    //console.log(groupedData);
 
     const mapped = lodash.mapValues(groupedData,(o)=>{ return o.length})
-    console.log(mapped);
+    //console.log(mapped);
 
     const pairWithLargestNumber = lodash.maxBy(lodash.toPairs(mapped), pair => pair[1]);
-    console.log(pairWithLargestNumber);
+    //console.log(pairWithLargestNumber);
 
     const object = lodash.zipObject(['author', 'blogs'], pairWithLargestNumber);
-    console.log(object);
+    //console.log(object);
 
     return object
 }

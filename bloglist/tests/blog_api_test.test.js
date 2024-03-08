@@ -1,4 +1,4 @@
-const {test,after,beforeEach, describe,only} = require('node:test')
+const {test,after,beforeEach, describe} = require('node:test')
 const assert = require('node:assert')
 const mongoose = require('mongoose')
 const Blog = require('../models/blog')
@@ -120,10 +120,29 @@ describe('HTTP POST', () => {
             .expect(404)
 
         const returnedPosts = await helper.blogsInDb()
-        console.log('............................................................')
-
-        console.log(returnedPosts)
         assert.strictEqual(returnedPosts.length,helper.initializeBlogs.length)
+    })
+})
+
+describe('HTTP DELETE', () => {
+    test('when deleted, then count will be reduced', async () => {
+        const initialPosts = await helper.blogsInDb()
+        const response = await api.delete(`/api/blogs/${initialPosts[0].id}`)
+        const postAfterDelete = await helper.blogsInDb()
+
+        assert.strictEqual(postAfterDelete.length,initialPosts.length - 1)
+    })
+})
+
+describe('HTTP PUT', () => {
+    test.only('when modified, then new object will be returned', async () => {
+        const initialPosts = await helper.blogsInDb()
+        const postToBeChanged = initialPosts[0]
+        postToBeChanged.title = postToBeChanged.title + " Modified"
+        const response = await api.put(`/api/blogs/${postToBeChanged.id}`).send(postToBeChanged)
+        const postAfterChanged = await helper.blogsInDb()
+        changedObj = postAfterChanged.find(post => post.id === postToBeChanged.id)
+        assert.strictEqual(changedObj.title,postToBeChanged.title)
     })
 })
 
