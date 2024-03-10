@@ -135,7 +135,7 @@ describe('HTTP DELETE', () => {
 })
 
 describe('HTTP PUT', () => {
-    test.only('when modified, then new object will be returned', async () => {
+    test('when modified, then new object will be returned', async () => {
         const initialPosts = await helper.blogsInDb()
         const postToBeChanged = initialPosts[0]
         postToBeChanged.title = postToBeChanged.title + " Modified"
