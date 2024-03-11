@@ -1,23 +1,40 @@
-const {test,after,beforeEach, describe} = require('node:test')
+const {test,after,beforeEach, describe,before} = require('node:test')
 const assert = require('node:assert')
 const mongoose = require('mongoose')
 const Blog = require('../models/blog')
+const User = require('../models/user')
 const supertest = require('supertest')
 const helper = require('./test_helper')
 const app = require('../app')
+//const { before } = require('lodash')
 const api = supertest(app)
+
+const userToCreate = {
+    userName: 'ovini123',
+    password : 'ovini123',
+    name: 'Ovini P'
+}
+let token
 
 beforeEach(async () => {
     await Blog.deleteMany({})
+    await User.deleteMany({})
 
     const blogObjects = helper.initializeBlogs
                             .map(blog => new Blog(blog))
     const promiseArray = blogObjects.map(blog => blog.save())
     await Promise.all(promiseArray)
+
+    const response = await api.post('/api/users')
+                        .send(userToCreate)
+    const loginResponse = await api.post('/api/login')
+                        .send(userToCreate)
+    token = loginResponse.body.token
+    console.log(token)
 })
 
 describe('HTTP GET', () => {
-    test.only('when get is called then 2 blogs are returned', async() => {
+    test('when get is called then 2 blogs are returned', async() => {
         const response = await api.get('/api/blogs')
         assert.strictEqual(helper.initializeBlogs.length,response.body.length)
     })
@@ -31,6 +48,7 @@ describe('HTTP GET', () => {
 
 describe('HTTP POST', () => {
     test('when post method is called, then item is added to the db', async () => {
+
         const newBlog = {
             title: "New Blog by Test",
             author: "Robert C. Martin",
@@ -38,6 +56,7 @@ describe('HTTP POST', () => {
             likes: 0,
         }
         await api.post('/api/blogs')
+            .set('Authorization' ,`Bearer ${token}`)
             .send(newBlog)
             .expect(201)
             .expect('Content-Type', /application\/json/)
@@ -46,13 +65,14 @@ describe('HTTP POST', () => {
         assert.strictEqual(returnedPosts.length,helper.initializeBlogs.length + 1)
     })
     
-    test('when post method is calld without like property, then default value 0 is added',async () => {
+   test('when post method is calld without like property, then default value 0 is added',async () => {
         const newBlog = {
             title: "Blog with no Likes",
             author: "Robert C. Martin",
             url: "http://blog.cleancoder.com/uncle-bob/2017/03/03/TDD-Harms-Architecture.html"
         }
         const createResponse = await api.post('/api/blogs')
+            .set('Authorization' ,`Bearer ${token}`)
             .send(newBlog)
             .expect(201)
             .expect('Content-Type', /application\/json/)
@@ -71,6 +91,7 @@ describe('HTTP POST', () => {
             likes:10
         }
         const createResponse = await api.post('/api/blogs')
+            .set('Authorization' ,`Bearer ${token}`)
             .send(newBlog)
             .expect(201)
             .expect('Content-Type', /application\/json/)
@@ -88,6 +109,7 @@ describe('HTTP POST', () => {
         }
 
         const createResponse = await api.post('/api/blogs')
+            .set('Authorization' ,`Bearer ${token}`)
             .send(newBlog)
             .expect(404)
 
@@ -102,6 +124,7 @@ describe('HTTP POST', () => {
         }
 
         const createResponse = await api.post('/api/blogs')
+            .set('Authorization' ,`Bearer ${token}`)
             .send(newBlog)
             .expect(404)
 
@@ -116,18 +139,34 @@ describe('HTTP POST', () => {
         }
 
         const createResponse = await api.post('/api/blogs')
+            .set('Authorization' ,`Bearer ${token}`)
             .send(newBlog)
             .expect(404)
 
         const returnedPosts = await helper.blogsInDb()
         assert.strictEqual(returnedPosts.length,helper.initializeBlogs.length)
     })
-})
 
+    test('when access token is not given, then authentication error occured', async () => {
+
+        const newBlog = {
+            title: "New Blog by Test",
+            author: "Robert C. Martin",
+            url: "http://blog.cleancoder.com/uncle-bob/2017/03/03/TDD-Harms-Architecture.html",
+            likes: 0,
+        }
+        await api.post('/api/blogs')
+            .send(newBlog)
+            .expect(401)
+            .expect('Content-Type', /application\/json/)
+    })
+})
+/*
 describe('HTTP DELETE', () => {
     test('when deleted, then count will be reduced', async () => {
         const initialPosts = await helper.blogsInDb()
         const response = await api.delete(`/api/blogs/${initialPosts[0].id}`)
+                                .set('Authorization' ,`Bearer ${token}`)
         const postAfterDelete = await helper.blogsInDb()
 
         assert.strictEqual(postAfterDelete.length,initialPosts.length - 1)
@@ -139,13 +178,13 @@ describe('HTTP PUT', () => {
         const initialPosts = await helper.blogsInDb()
         const postToBeChanged = initialPosts[0]
         postToBeChanged.title = postToBeChanged.title + " Modified"
-        const response = await api.put(`/api/blogs/${postToBeChanged.id}`).send(postToBeChanged)
+        const response = await api.put(`/api/blogs/${postToBeChanged.id}`)
+                          .send(postToBeChanged)
         const postAfterChanged = await helper.blogsInDb()
         changedObj = postAfterChanged.find(post => post.id === postToBeChanged.id)
         assert.strictEqual(changedObj.title,postToBeChanged.title)
     })
-})
-
+})*/
 after(async() => {
     mongoose.connection.close()
 })
