@@ -29,7 +29,8 @@ const getUserByToken = async (request, response) => {
     if(blog.likes == undefined){
       blog.likes = 0
     }
-    if(blog.title == undefined || blog.url == undefined){
+    if(blog.title == undefined || blog.url == undefined ||
+      blog.title == '' || blog.url == ''){
       return response.status(404).end()
     }
 
@@ -62,9 +63,9 @@ const getUserByToken = async (request, response) => {
     }
   })
 
-  blogsRouter.put('/:id', async (request, response) => {
-    console.log(request.body)
-    const newobj = {likes:13}
+  blogsRouter.put('/:id', middleware.userExtractor, async (request, response) => {
+    const blog = request.body
+    blog.user = request.user.id
     const result = await Blog.findByIdAndUpdate(request.params.id,  request.body, { new: true })
     console.log(result)
     response.json(result)

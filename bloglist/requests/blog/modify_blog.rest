@@ -1,7 +1,7 @@
-PUT http://localhost:3003/api/blogs/65d54d2483ad8e44c01d8035  HTTP/1.1
+PUT http://localhost:3003/api/blogs/65f569b563fc17457dcb21d7  HTTP/1.1
 content-type: application/json
 
 {
-  "title": "Full Stack modified",
+  "title": "Full Stack blog",
   "likes": 22
 }
