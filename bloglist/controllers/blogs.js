@@ -35,7 +35,7 @@ const getUserByToken = async (request, response) => {
     }
 
     blog.user = user.id
-    const result = await blog.save()
+    const result = await (await blog.save()).populate('user')
 
     user.blogs = user.blogs.concat(result._id)
     await user.save()
@@ -65,9 +65,8 @@ const getUserByToken = async (request, response) => {
 
   blogsRouter.put('/:id', middleware.userExtractor, async (request, response) => {
     const blog = request.body
-    blog.user = request.user.id
     const result = await Blog.findByIdAndUpdate(request.params.id,  request.body, { new: true })
-    console.log(result)
+                              .populate('user')
     response.json(result)
   })
 

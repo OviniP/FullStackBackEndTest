@@ -1,6 +1,6 @@
 POST http://localhost:3003/api/blogs  HTTP/1.1
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ZWUzNDVmZTQyMDMyOTY2YzNhMTM1NiIsImlhdCI6MTcxMDE0Njk1M30.uoFUWOJ7pwhkq3-AdNR9mQBbASI6tQSAWO1lkt9jBE8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6Ik92aW5pIiwiaWQiOiI2NWY1YjBlNTc3MzdiZDA2NWZkYTQ4NjAiLCJpYXQiOjE3MTA2MDA0Mzd9.XHvy76V6tXc7oMNm0MevUdKXyNvhxWJWo6SxlSz6-V4
  
 {
   "title": "Full Stack4",

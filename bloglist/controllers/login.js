@@ -25,7 +25,7 @@ const user = await User.findOne({ userName })
 
   response
     .status(200)
-    .send({ token, userName: user.userName, name: user.name })
+    .send({ token, userName: user.userName, name: user.name, id:user.id })
 })
 
 module.exports = loginRouter
