@@ -6,7 +6,11 @@
   "scripts": {
     "test": "cross-env NODE_ENV=test node --test",
     "start": "cross-env NODE_ENV=production node index.js",
-    "dev": "cross-env NODE_ENV=develeopment nodemon index.js"
+    "dev": "cross-env NODE_ENV=develeopment nodemon index.js",
+    "build:ui": "rm -rf dist && cd ../../FullStackWeb/part2/phonebook && npm run build && cp -r dist ../../../FullStackBackEnd/FullStackBackEnd",
+    "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push",
+    "lint": "eslint .",
+    "start:test": "NODE_ENV=test node index.js"
   },
   "author": "",
   "license": "ISC",

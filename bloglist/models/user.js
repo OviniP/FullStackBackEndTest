@@ -31,5 +31,4 @@ userSchema.set('toJSON', {
     }
 })
 
-const user = mongoose.model('User', userSchema)
-module.exports = user
+module.exports = mongoose.model('User', userSchema)
