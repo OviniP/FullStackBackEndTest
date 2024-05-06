@@ -5,6 +5,12 @@ const blogSchema = new mongoose.Schema({
     author: String,
     url: String,
     likes: Number,
+    comments:[
+      {
+        text: String, 
+        date: { type: Date, default: Date.now } 
+      }
+    ],
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User'
@@ -16,6 +22,13 @@ const blogSchema = new mongoose.Schema({
         returnedObject.id = returnedObject._id.toString()
         delete returnedObject._id
         delete returnedObject.__v
+
+        returnedObject.comments = returnedObject.comments.map(comment => {
+          const transformedComment = { ...comment }; // Convert Mongoose document to plain object
+          transformedComment.id = transformedComment._id.toString(); // Convert _id to id
+          delete transformedComment._id;
+          return transformedComment;
+        });
     }
   })
   

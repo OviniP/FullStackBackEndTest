@@ -42,8 +42,34 @@ const getUserByToken = async (request, response) => {
     response.status(201).json(result)
   })
 
+  blogsRouter.post('/:id/comments', async(request, response) => {
+    const comment = {"text":"text 1 comment"}
+    const blogId = request.params.id
+    let updatedBlog
+
+    try{
+       updatedBlog = await Blog.findByIdAndUpdate(
+        blogId,
+        { $push: { comments: comment } },
+        { new: true } // Return the updated document after the update
+      ).populate('user');
+    }
+    catch(error)
+    {
+      console.log(error)
+    }
+    
+
+    if (!updatedBlog) {
+      return res.status(404).json({ error: 'Blog not found' });
+    }
+
+    response.json(updatedBlog)
+  })
+
   blogsRouter.get('/:id', async(request, response) => {
     const result = await Blog.findById(request.params.id)
+                            .populate('user')
     if (result) {
       response.json(result)
     } else {

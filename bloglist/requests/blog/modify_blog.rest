@@ -1,8 +1,8 @@
-PUT http://localhost:3003/api/blogs/65f5b1147737bd065fda4864  HTTP/1.1
+PUT http://localhost:3003/api/blogs/65fb4ccd0b137faa4c50aecd  HTTP/1.1
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6Ik92aW5pIiwiaWQiOiI2NWY1YjBlNTc3MzdiZDA2NWZkYTQ4NjAiLCJpYXQiOjE3MTA2MDA0Mzd9.XHvy76V6tXc7oMNm0MevUdKXyNvhxWJWo6SxlSz6-V4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6Ik92aW5pIiwiaWQiOiI2NWY1YjBlNTc3MzdiZDA2NWZkYTQ4NjAiLCJpYXQiOjE3MTQ3NzgyNDl9.59TuQ4_AeLwjDKbHrxsLL-YkYeydK6dDM35orrPzjvg
 
 {
   "title": "Full Stack blog",
-  "likes": 22
+  "likes": 0
 }

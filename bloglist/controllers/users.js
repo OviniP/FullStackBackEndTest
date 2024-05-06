@@ -27,4 +27,15 @@ usersRouter.get('/', async (request, response) => {
     response.status(200).json(users)
 })
 
+usersRouter.get('/:id', async (request, response) => {
+    const result = await User.findById(request.params.id)
+                            .populate('blogs')
+    if (result) {
+      response.json(result)
+    } else {
+      response.status(404).end()
+    }
+})
+
+
 module.exports = usersRouter

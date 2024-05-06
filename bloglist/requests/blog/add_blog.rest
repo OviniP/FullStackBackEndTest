@@ -1,9 +1,9 @@
 POST http://localhost:3003/api/blogs  HTTP/1.1
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6Ik92aW5pIiwiaWQiOiI2NWY1YjBlNTc3MzdiZDA2NWZkYTQ4NjAiLCJpYXQiOjE3MTA2MDA0Mzd9.XHvy76V6tXc7oMNm0MevUdKXyNvhxWJWo6SxlSz6-V4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6Im92aW5pIiwiaWQiOiI2NjM4YTgzNDZmNGRiNzg4Mjc5YzI0MzQiLCJpYXQiOjE3MTQ5ODkxMzN9.Inmgq__nmyZmL7NVLHdqQ0EbVyBPTBBp-V4423rD4Mo
  
 {
-  "title": "Full Stack4",
+  "title": "Full Stack1",
   "author": "Ovini123456",
   "url": "http://test.com",
   "likes": "2"
